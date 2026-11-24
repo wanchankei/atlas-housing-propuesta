@@ -1,0 +1,3 @@
+# Copia de revision para el cliente. El sitio real es https://atlashousing.com.ar
+User-agent: *
+Disallow: /
