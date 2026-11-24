@@ -107,7 +107,7 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
    oscuras: la primera abre grande arriba, la última cierra grande abajo y
    entre ellas queda poco. Las blancas que lo tocan acompañan del lado que toca. */
 .seccion.seccion--tinta { padding-block: calc(var(--sec) * 2); }
-.seccion--tinta + .seccion--tinta { padding-top: calc(var(--sec) * .7); }
+.seccion--tinta + .seccion--tinta { padding-top: calc(var(--sec) * .7); margin-top: -1px; }
 .seccion--tinta:has(+ .seccion--tinta) { padding-bottom: calc(var(--sec) * .7); }
 
 .seccion:not(.seccion--tinta):has(+ .seccion--tinta) { padding-bottom: calc(var(--sec) * 1.9); }
@@ -672,7 +672,8 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
 .ah-modelo { min-width: 0; }
 @media (max-width: 46rem) {
   .ah-modelo-specs dt { letter-spacing: .05em; }
-  .ah-modelo-specs dd { white-space: normal; }
+  .ah-modelo-specs { column-gap: .6rem; }
+  .ah-modelo-specs dd, .ah-modelo-precio small { white-space: normal; }
 }
 
 .nota-precio { margin-top: clamp(1rem, 1.6vw, 1.5rem); font-size: var(--t-rotulo); color: var(--texto-3); }
@@ -825,7 +826,7 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
 .escena img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .escena::after {
   content: "";
-  position: absolute; inset: 0;
+  position: absolute; inset: 0 0 -1px;   /* tapa el filo de la foto al pie */
   /* el degradado tiene que llegar casi opaco hasta donde está el texto:
      la foto de la nave es clara y el título se perdía */
   background: linear-gradient(to top,
@@ -1053,12 +1054,16 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
 
   .filosofia .rotulo, .filosofia__frase { grid-column: 1 / 13; }
 
-  .resuelta .rotulo, .resuelta h2, .resuelta p { grid-column: 1 / 13; }
+  /* aperturas: una sola columna, la bajada debajo del título */
+  .apertura .rotulo, .apertura h2, .apertura p { grid-column: 1 / -1; grid-row: auto; }
+  .apertura p { margin-top: .9rem; padding-bottom: 0; max-width: 40ch; }
+
   .cifras { grid-template-columns: repeat(2, 1fr); }
+  .cifra { padding-block: 1.35rem 1.25rem; }
   .cifra:nth-child(odd) { padding-left: 0; border-left: 0; }
   .cifra:nth-child(n+3) { border-top: 1px solid var(--filete); }
 
-  .pilares, .remates { grid-template-columns: 1fr; }
+  .remates { grid-template-columns: 1fr; }
   .remates { gap: clamp(1rem, 2vw, 1.5rem); }
 
   .duo__texto, .duo__foto,
@@ -1117,6 +1122,65 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
     padding-bottom: clamp(1.25rem, 4vw, 2rem);
   }
 
+  /* hero: la foto ocupa la parte de arriba y se funde en la tinta; el texto va
+     debajo de la casa, no encima de las ventanas */
+  .menu-btn { margin-right: -.625rem; }      /* las rayas al ras del margen */
+  .hero { background: var(--tinta); }
+  .hero__fondo { inset: 0 0 auto; height: 74%; overflow: hidden; }
+  .hero__fondo::after {
+    inset: 0 0 -1px;
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--tinta) 50%, transparent) 0%,
+      color-mix(in srgb, var(--tinta) 8%, transparent) 26%,
+      color-mix(in srgb, var(--tinta) 8%, transparent) 56%,
+      color-mix(in srgb, var(--tinta) 78%, transparent) 80%,
+      var(--tinta) 100%);
+  }
+  .hero__cuerpo { padding-bottom: 1.5rem; }
+  .hero h1 { max-width: none; margin-top: .6rem; font-size: clamp(1.5rem, 8.2vw, 3.5rem); }
+  .hero h1 span { text-wrap: balance; }
+  .hero__rotulo { letter-spacing: .08em; }
+  .hero__bajada { font-size: .875rem; text-wrap: pretty; }
+  /* sobre la tinta el negro no se lee como botón */
+  .hero .btn--solido { --btn-fondo: #fff; --btn-texto: var(--tinta); }
+  .hero .redes a { background: transparent; border: 1px solid var(--filete-claro); }
+
+  .apertura--segunda { margin-top: 2.75rem; }
+
+  .banda { margin-bottom: 0; }
+
+  /* pilares: cada uno es un bloque, con su cifra pegada y un filete entre ellos */
+  .pilares { grid-template-columns: 1fr; gap: 0; }
+  .pilar { padding-block: 1.75rem; border-top: 1px solid var(--filete); }
+  .pilar:last-child { padding-bottom: 0; }
+  .pilar h3 { margin-top: .5rem; }
+  .pilar__dato { margin-top: 1rem !important; }
+
+  /* fábrica: la foto arriba, fundida; el texto en la tinta */
+  .escena { min-height: 0; padding-top: max(67vw, 16rem); }
+  .escena img { inset: 0 0 auto; height: max(74vw, 18rem); }
+  .escena::after {
+    inset: 0 0 auto; height: calc(max(74vw, 18rem) + 1px);
+    background: linear-gradient(to top,
+      var(--tinta) 0%,
+      color-mix(in srgb, var(--tinta) 82%, transparent) 20%,
+      color-mix(in srgb, var(--tinta) 18%, transparent) 52%,
+      transparent 100%);
+  }
+  .escena__texto { padding-block: 0; }
+
+  /* datos de la fábrica: lista, cifra a la izquierda y rótulo en una columna */
+  .franja { grid-template-columns: 1fr; gap: 0; margin-top: 1.5rem; padding-top: 0; border-top: 0; }
+  .franja__dato {
+    display: grid; grid-template-columns: 6.5rem 1fr; align-items: baseline;
+    padding-block: 1rem; border-top: 1px solid var(--filete);
+  }
+
+  /* etapas: el número en su columna, alineado con el título */
+  .etapa { grid-template-columns: 3.5rem 1fr; gap: 0 .9rem; align-items: start; }
+  .etapa__n { font-size: 2.25rem; line-height: 1; margin-top: -.25rem; }
+  .etapa :is(h3, p) { text-wrap: pretty; }
+
   /* los filtros no se parten en dos líneas: se deslizan de costado */
   .barra { flex-wrap: nowrap; }
   .filtros { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
@@ -1139,13 +1203,19 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
 
   .campos { grid-template-columns: 1fr; }
   .cta__datos { grid-template-columns: 1fr; gap: 1.25rem; }
+  .pie__rejilla { row-gap: 2.25rem; }
   .pie__bloque { grid-column: span 6; }
+  .pie__bloque:last-child { grid-column: 1 / -1; }
 }
 
 @media (max-width: 30rem) {          /* < 480 px */
   .hero__botones .btn { flex: 1 1 100%; }
-  .etapa { grid-template-columns: 1fr; gap: .35rem; }
-  .etapa__n { grid-row: auto; padding-top: 0; }
+  .hero__botones .btn--texto { justify-content: flex-start; }
+}
+
+/* teléfonos bajos: se recorta cielo para que el texto no pise la casa */
+@media (max-width: 48rem) and (max-height: 44rem) {
+  .hero__fondo { top: -14%; }
 }
 
 /* --- 19. Preferencias del usuario --------------------------------------- */

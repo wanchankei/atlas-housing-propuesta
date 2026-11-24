@@ -323,7 +323,8 @@
        Va atado al scroll (scrub), asi que es reversible por definicion. */
     gsap.utils.toArray("[data-deriva]").forEach(function (caja) {
       gsap.fromTo(caja, { y: 0 }, {
-        y: function () { return -Math.min(window.innerHeight * 0.13, 130); },
+        // en mobile el texto va debajo de la foto: con todo el recorrido se despegaba de los datos
+        y: function () { return window.innerWidth < 768 ? -24 : -Math.min(window.innerHeight * 0.13, 130); },
         ease: "none",
         scrollTrigger: {
           trigger: caja.closest("section") || caja,
