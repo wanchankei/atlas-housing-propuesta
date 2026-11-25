@@ -823,7 +823,11 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
   align-items: flex-end;
   overflow: hidden;
 }
-.escena img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.escena img { position: absolute; inset: 0; width: 100%; height: calc(100% - 2px); object-fit: cover; object-position: 50% 38%; }
+/* la segunda foto aparece y se va sobre la primera: unos 6 s cada una */
+.escena .escena__equipo { opacity: 0; object-position: 50% 96%; animation: escena-cambio 14s ease-in-out infinite; }
+@keyframes escena-cambio { 0%, 43% { opacity: 0; } 50%, 93% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .escena .escena__equipo { animation: none; } }
 .escena::after {
   content: "";
   position: absolute; inset: 0 0 -1px;   /* tapa el filo de la foto al pie */
@@ -832,8 +836,8 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
   background: linear-gradient(to top,
     var(--tinta) 0%,
     color-mix(in srgb, var(--tinta) 96%, transparent) 38%,
-    color-mix(in srgb, var(--tinta) 74%, transparent) 56%,
-    color-mix(in srgb, var(--tinta) 32%, transparent) 76%,
+    color-mix(in srgb, var(--tinta) 84%, transparent) 56%,
+    color-mix(in srgb, var(--tinta) 42%, transparent) 76%,
     color-mix(in srgb, var(--tinta) 8%, transparent) 100%);
 }
 .escena__texto {
