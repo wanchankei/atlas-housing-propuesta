@@ -324,7 +324,7 @@
     gsap.utils.toArray("[data-deriva]").forEach(function (caja) {
       gsap.fromTo(caja, { y: 0 }, {
         // en mobile el texto va debajo de la foto: con todo el recorrido se despegaba de los datos
-        y: function () { return window.innerWidth < 768 ? -24 : -Math.min(window.innerHeight * 0.13, 130); },
+        y: function () { return window.innerWidth < 768 ? -24 : -Math.min(window.innerHeight * 0.13, window.innerWidth * 0.068, 130); },
         ease: "none",
         scrollTrigger: {
           trigger: caja.closest("section") || caja,

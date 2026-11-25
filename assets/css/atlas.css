@@ -818,27 +818,28 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
   position: relative;
   width: 100vw;
   margin-inline: calc(50% - 50vw);
-  min-height: clamp(30rem, 78vh, 52rem);
-  display: flex;
-  align-items: flex-end;
+  /* todo en vw: la foto y el texto guardan la misma relación en cualquier ancho,
+     así el título cae siempre debajo de las caras del equipo */
+  padding-top: 26.5vw;
   overflow: hidden;
 }
-.escena img { position: absolute; inset: 0; width: 100%; height: calc(100% - 2px); object-fit: cover; object-position: 50% 38%; }
+.escena img { position: absolute; inset: 0 0 auto; width: 100%; height: 37vw; object-fit: cover; object-position: 50% 36%; }
 /* la segunda foto aparece y se va sobre la primera: unos 6 s cada una */
-.escena .escena__equipo { opacity: 0; object-position: 50% 96%; animation: escena-cambio 14s ease-in-out infinite; }
+.escena .escena__equipo { opacity: 0; object-position: 50% 99%; animation: escena-cambio 14s ease-in-out infinite; }
 @keyframes escena-cambio { 0%, 43% { opacity: 0; } 50%, 93% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .escena .escena__equipo { animation: none; } }
 .escena::after {
   content: "";
-  position: absolute; inset: 0 0 -1px;   /* tapa el filo de la foto al pie */
+  position: absolute; inset: 0 0 auto;
+  height: calc(37vw + 2px);   /* tapa el filo de la foto al pie */
   /* el degradado tiene que llegar casi opaco hasta donde está el texto:
      la foto de la nave es clara y el título se perdía */
   background: linear-gradient(to top,
     var(--tinta) 0%,
-    color-mix(in srgb, var(--tinta) 96%, transparent) 38%,
-    color-mix(in srgb, var(--tinta) 84%, transparent) 56%,
-    color-mix(in srgb, var(--tinta) 42%, transparent) 76%,
-    color-mix(in srgb, var(--tinta) 8%, transparent) 100%);
+    color-mix(in srgb, var(--tinta) 94%, transparent) 12%,
+    color-mix(in srgb, var(--tinta) 74%, transparent) 28%,
+    color-mix(in srgb, var(--tinta) 28%, transparent) 54%,
+    color-mix(in srgb, var(--tinta) 6%, transparent) 100%);
 }
 .escena__texto {
   position: relative;
@@ -846,7 +847,7 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
   width: var(--ancho);
   margin-inline: auto;
   /* el texto se apoya más arriba, lejos del borde inferior */
-  padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(5rem, 11vw, 9rem);
+  padding-block: 0 clamp(1rem, 2vw, 2rem);
   max-width: min(var(--ancho), 46rem);
   margin-right: auto;
 }
@@ -1163,6 +1164,7 @@ svg.oculto { position: absolute; width: 0; height: 0; overflow: hidden; clip-pat
   /* fábrica: la foto arriba, fundida; el texto en la tinta */
   .escena { min-height: 0; padding-top: max(67vw, 16rem); }
   .escena img { inset: 0 0 auto; height: max(74vw, 18rem); }
+  .escena .escena__equipo { object-position: 40% 100%; }
   .escena::after {
     inset: 0 0 auto; height: calc(max(74vw, 18rem) + 1px);
     background: linear-gradient(to top,
